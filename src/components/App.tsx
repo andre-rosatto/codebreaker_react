@@ -9,7 +9,7 @@ interface Attempt {
 
 const App = () => {
 	const [answer, setAnswer] = useState<Array<number>>(makeAnswer());
-	const [attempts, setAttempts] = useState<Array<Attempt>>(clearTries());
+	const [attempts, setAttempts] = useState<Array<Attempt>>(clearAttempts());
 	const [currentAttempt, setCurrentAttempt] = useState(0);
 
 	function makeAnswer(): Array<number> {
@@ -21,7 +21,7 @@ const App = () => {
 		return result;
 	}
 
-	function clearTries(): Array<Attempt> {
+	function clearAttempts(): Array<Attempt> {
 		const result = [];
 		for (let i = 0; i < 10; i++) {
 			result.push({
@@ -34,7 +34,10 @@ const App = () => {
 
 	const handleBallClick = (ballIdx: number) => {
 		console.log(ballIdx);
+	}
 
+	const handleEnterClick = () => {
+		console.log('enter click');
 	}
 
 	return (
@@ -58,6 +61,7 @@ const App = () => {
 							balls={attempt.balls}
 							hints={attempt.hints}
 							onBallClick={handleBallClick}
+							onEnterClick={handleEnterClick}
 						/>
 					))}
 				</section>

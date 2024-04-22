@@ -33,9 +33,7 @@ const BallRow = ({ header, current, balls, hints, onBallClick, onEnterClick }: B
 						key={`ball${idx}`}
 						className={`ball ${getBallClass(ball)}`}
 						onClick={() => {
-							if (typeof onBallClick === 'function') {
-								onBallClick(idx)
-							}
+							if (typeof onBallClick === 'function') onBallClick(idx);
 						}}
 					></div>
 				))}
@@ -50,6 +48,9 @@ const BallRow = ({ header, current, balls, hints, onBallClick, onEnterClick }: B
 			</div>}
 			{!header && <button
 				className={`enter-btn${current ? '' : ' hidden'}`}
+				onClick={() => {
+					if (typeof onEnterClick === 'function') onEnterClick();
+				}}
 			></button>}
 		</div>
 	);
