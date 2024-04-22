@@ -1,0 +1,49 @@
+.BallRow {
+	pointer-events: none;
+	display: flex;
+	justify-content: space-between;
+	height: 50px;
+	padding: 7px;
+	box-sizing: border-box;
+	border-bottom: 1px solid rgba(0, 0, 0, .35);
+	border-top: 1px solid rgba(255, 255, 255, .75)
+}
+
+.BallRow:first-child {
+	border-top: none;
+}
+
+.BallRow:last-child {
+	border-bottom: none;
+}
+
+.BallRow.current .ball {
+	pointer-events: none;
+	cursor: pointer;
+}
+
+.BallRow.current {
+	pointer-events: all;
+}
+
+.BallRow.current .ball {
+	pointer-events: all;
+}
+
+.BallRow.header {
+	border: none;
+	height: 40px;
+}
+
+.BallRow .answers {
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+	align-items: center;
+}
+
+.BallRow .hints {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 4px;
+}
