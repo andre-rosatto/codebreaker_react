@@ -6,9 +6,10 @@ interface BallRowProps {
 	balls: Array<number>;
 	hints?: Array<number>;
 	onBallClick?: (ballIdx: number) => void;
+	onEnterClick?: () => void;
 }
 
-const BallRow = ({ header, current, balls, hints, onBallClick }: BallRowProps) => {
+const BallRow = ({ header, current, balls, hints, onBallClick, onEnterClick }: BallRowProps) => {
 	const getBallClass = (ball: number): string => {
 		switch (ball) {
 			case -4:
@@ -47,6 +48,9 @@ const BallRow = ({ header, current, balls, hints, onBallClick }: BallRowProps) =
 					></div>
 				))}
 			</div>}
+			{!header && <button
+				className={`enter-btn${current ? '' : ' hidden'}`}
+			></button>}
 		</div>
 	);
 }

@@ -43,7 +43,7 @@ const App = () => {
 				<header>
 					<div className="title">
 						<h1>Codebreaker</h1>
-						<div></div>
+						<nav></nav>
 					</div>
 					<BallRow
 						header
