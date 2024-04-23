@@ -23,7 +23,7 @@ const App = () => {
 
 	function clearAttempts(): Array<Attempt> {
 		const result = [];
-		for (let i = 0; i < 10; i++) {
+		for (let i = 0; i < 8; i++) {
 			result.push({
 				balls: [-3, -3, -3, -3],
 				hints: [-3, -3, -3, -3]
@@ -32,12 +32,15 @@ const App = () => {
 		return result;
 	}
 
-	const handleBallClick = (ballIdx: number) => {
-		console.log(ballIdx);
-	}
-
 	const handleEnterClick = () => {
 		console.log('enter click');
+	}
+
+	const handlePieMenuClick = (ballIdx: number, colorIdx: number) => {
+		const attempt = attempts[currentAttempt];
+		attempt.balls[ballIdx] = colorIdx;
+		const nextAttempts = attempts.map((att, idx) => idx === currentAttempt ? attempt : att);
+		setAttempts(nextAttempts);
 	}
 
 	return (
@@ -60,8 +63,8 @@ const App = () => {
 							current={currentAttempt === idx}
 							balls={attempt.balls}
 							hints={attempt.hints}
-							onBallClick={handleBallClick}
 							onEnterClick={handleEnterClick}
+							onPieMenuClick={handlePieMenuClick}
 						/>
 					))}
 				</section>

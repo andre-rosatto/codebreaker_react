@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
 
 :root {
+	--drop-shadow: 0 0 5px rgba(0, 0, 0, .75);
+	--game-bg: linear-gradient(dodgerblue, #123456);
 	--ball-empty: radial-gradient(circle at 70% 70%, #3d3d3d, #161616);
 	--ball-black: radial-gradient(circle at 30% 30%, #d3d3d3, #736c6c 33%, black);
 	--ball-white: radial-gradient(circle at 30% 30%, white, #bfbfbf 33%, #7d7878);
@@ -13,24 +15,28 @@
 }
 
 .App {
-	background-color: #123456;
+	background: var(--game-bg);
 	position: fixed;
 	width: 100vw;
 	height: 100vh;
 	font-family: 'Jersey 25', Arial, Helvetica, sans-serif;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .Codebreaker {
 	display: flex;
 	flex-direction: column;
-	aspect-ratio: 1 /2;
-	height: 600px;
-	margin: auto;
+	height: 100%;
+	max-height: 500px;
+	width: 100%;
+	max-width: 300px;
 }
 
 /* header */
 .Codebreaker header {
-	background-image: url('../assets/bg.jpg');
+	background-image: url('../assets/game_bg.jpg');
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -38,6 +44,7 @@
 	border-radius: 8px;
 	height: 100px;
 	box-sizing: border-box;
+	box-shadow: var(--drop-shadow);
 }
 
 .Codebreaker header .title {
@@ -63,76 +70,10 @@
 	cursor: pointer;
 }
 
-/* balls */
-.Codebreaker .ball,
-.Codebreaker .hint {
-	border-radius: 50%;
-	border: 1px solid rgba(0, 0, 0, .5);
-}
-
-.Codebreaker .ball {
-	width: 30px;
-	height: 30px;
-}
-
-.Codebreaker .hint {
-	width: 15px;
-	height: 15px;
-}
-
-.Codebreaker .ball.hidden {
-	background-color: white;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.Codebreaker .ball.hidden::after {
-	content: '?';
-	color: black;
-	font-size: 26px;
-}
-
-.Codebreaker .ball.color0 {
-	background: var(--ball-color0);
-}
-
-.Codebreaker .ball.color1 {
-	background: var(--ball-color1);
-}
-
-.Codebreaker .ball.color2 {
-	background: var(--ball-color2);
-}
-
-.Codebreaker .ball.color3 {
-	background: var(--ball-color3);
-}
-
-.Codebreaker .ball.color4 {
-	background: var(--ball-color4);
-}
-
-.Codebreaker .ball.color5 {
-	background: var(--ball-color5);
-}
-
-.Codebreaker .ball.empty,
-.Codebreaker .hint.empty {
-	background: var(--ball-empty);
-}
-
-.Codebreaker .hint.black {
-	background: var(--ball-black);
-}
-
-.Codebreaker .hint.white {
-	background: var(--ball-white);
-}
-
 /* play-area */
 .Codebreaker .play-area {
 	margin-top: 10px;
-	background-image: url('../assets/bg.jpg');
+	background-image: url('../assets/game_bg.jpg');
 	border-radius: 8px;
+	box-shadow: var(--drop-shadow);
 }

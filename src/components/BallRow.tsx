@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import '../css/BallRow.css';
 
 interface BallRowProps {
@@ -5,11 +6,21 @@ interface BallRowProps {
 	current?: boolean;
 	balls: Array<number>;
 	hints?: Array<number>;
-	onBallClick?: (ballIdx: number) => void;
 	onEnterClick?: () => void;
+	onPieMenuClick?: (ballIdx: number, colorIdx: number) => void;
 }
 
-const BallRow = ({ header, current, balls, hints, onBallClick, onEnterClick }: BallRowProps) => {
+const BallRow = ({ header, current, balls, hints, onEnterClick, onPieMenuClick }: BallRowProps) => {
+	const [selectedBall, setSelectedBall] = useState<number | null>(null);
+
+	useEffect(() => {
+		const handleClickOutside = (e: MouseEvent) => {
+			setSelectedBall(null);
+		}
+		window.addEventListener('click', handleClickOutside)
+		return () => window.removeEventListener('click', handleClickOutside);
+	});
+
 	const getBallClass = (ball: number): string => {
 		switch (ball) {
 			case -4:
@@ -25,17 +36,43 @@ const BallRow = ({ header, current, balls, hints, onBallClick, onEnterClick }: B
 		}
 	}
 
+	const handleBallClick = (e: React.MouseEvent, ballIdx: number) => {
+		e.stopPropagation();
+		setSelectedBall(ballIdx);
+	}
+
+	const handlePieMenuClick = (e: React.MouseEvent, ballIdx: number, colorIdx: number) => {
+		e.stopPropagation();
+		setSelectedBall(-1);
+		if (typeof onPieMenuClick === 'function') onPieMenuClick(ballIdx, colorIdx);
+	}
+
 	return (
 		<div className={`BallRow${current ? ' current' : ''}${header ? ' header' : ''}`}>
 			<div className="answers">
-				{balls?.map((ball, idx) => (
+				{balls?.map((ball, ballIdx) => (
 					<div
-						key={`ball${idx}`}
+						key={`ball${ballIdx}`}
 						className={`ball ${getBallClass(ball)}`}
-						onClick={() => {
-							if (typeof onBallClick === 'function') onBallClick(idx);
-						}}
-					></div>
+						onClick={e => handleBallClick(e, ballIdx)}
+					>
+						{/* pie menu */}
+						<div
+							className={`pie-menu${selectedBall === ballIdx ? '' : ' hidden'}`}
+						>
+							<div
+								className="ball empty"
+								onClick={e => handlePieMenuClick(e, ballIdx, -3)}
+							></div>
+							{(new Array(6)).fill(0).map((_, pieIdx) => (
+								<div
+									key={pieIdx}
+									className={`ball color${pieIdx}${balls.some(ball => ball === pieIdx) ? ' disabled' : ''}`}
+									onClick={e => handlePieMenuClick(e, ballIdx, pieIdx)}
+								></div>
+							))}
+						</div>
+					</div>
 				))}
 			</div>
 			{hints && <div className="hints">
@@ -47,6 +84,7 @@ const BallRow = ({ header, current, balls, hints, onBallClick, onEnterClick }: B
 				))}
 			</div>}
 			{!header && <button
+				disabled={balls.some(ball => ball < 0)}
 				className={`enter-btn${current ? '' : ' hidden'}`}
 				onClick={() => {
 					if (typeof onEnterClick === 'function') onEnterClick();

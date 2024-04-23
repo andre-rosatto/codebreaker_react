@@ -1,3 +1,8 @@
+:root {
+	--ball-size: 30px;
+	--pie-menu-ball-size: 20px;
+}
+
 .BallRow {
 	pointer-events: none;
 	display: flex;
@@ -18,16 +23,7 @@
 	border-bottom: none;
 }
 
-.BallRow.current .ball {
-	pointer-events: none;
-	cursor: pointer;
-}
-
 .BallRow.current {
-	pointer-events: all;
-}
-
-.BallRow.current .ball {
 	pointer-events: all;
 }
 
@@ -61,4 +57,142 @@
 
 .BallRow .enter-btn.hidden {
 	visibility: hidden;
+}
+
+.BallRow .enter-btn:disabled {
+	opacity: 0.35;
+}
+
+/* balls */
+.BallRow .ball,
+.BallRow .hint {
+	border-radius: 50%;
+	border: 1px solid rgba(0, 0, 0, .5);
+}
+
+.BallRow .ball {
+	width: var(--ball-size);
+	height: var(--ball-size);
+	pointer-events: none;
+	cursor: pointer;
+	position: relative;
+}
+
+.BallRow .hint {
+	width: 15px;
+	height: 15px;
+}
+
+.BallRow.current .ball {
+	pointer-events: all;
+}
+
+.BallRow .ball.hidden {
+	background-color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.BallRow .ball.hidden::after {
+	content: '?';
+	color: black;
+	font-size: 26px;
+}
+
+.BallRow .ball.color0 {
+	background: var(--ball-color0);
+}
+
+.BallRow .ball.color1 {
+	background: var(--ball-color1);
+}
+
+.BallRow .ball.color2 {
+	background: var(--ball-color2);
+}
+
+.BallRow .ball.color3 {
+	background: var(--ball-color3);
+}
+
+.BallRow .ball.color4 {
+	background: var(--ball-color4);
+}
+
+.BallRow .ball.color5 {
+	background: var(--ball-color5);
+}
+
+.BallRow .ball.empty,
+.BallRow .hint.empty {
+	background: var(--ball-empty);
+}
+
+.BallRow .hint.black {
+	background: var(--ball-black);
+}
+
+.BallRow .hint.white {
+	background: var(--ball-white);
+}
+
+/* pie menu */
+.BallRow .pie-menu {
+	position: absolute;
+	width: 85px;
+	height: 85px;
+	background-image: url('../assets/pie_menu_bg.png');
+	left: calc(-50% - var(--ball-size) / 2);
+	top: calc(-50% - var(--ball-size) / 2);
+	z-index: 1;
+	transform: scale(1) rotate(0deg);
+	transform-origin: center;
+	transition: transform .4s;
+	transition-timing-function: cubic-bezier(0, .4, .3, 1.25);
+	cursor: default;
+}
+
+.BallRow .pie-menu.hidden {
+	transform: scale(0) rotate(-180deg);
+	transition: transform .2s;
+	transition-timing-function: cubic-bezier(.75, -0.35, 1, .6);
+	pointer-events: none;
+}
+
+.BallRow .pie-menu .ball {
+	width: var(--pie-menu-ball-size);
+	height: var(--pie-menu-ball-size);
+	position: absolute;
+	left: calc(50% - var(--pie-menu-ball-size) / 2);
+	top: calc(50% - var(--pie-menu-ball-size) / 2);
+}
+
+.BallRow .pie-menu .ball.disabled {
+	pointer-events: none;
+	opacity: .25;
+}
+
+.BallRow .pie-menu .ball.color0 {
+	transform: translateY(-25px);
+}
+
+.BallRow .pie-menu .ball.color1 {
+	transform: translate(-24px, -13.5px);
+}
+
+.BallRow .pie-menu .ball.color2 {
+	transform: translate(-24px, 13.5px);
+}
+
+.BallRow .pie-menu .ball.color3 {
+	transform: translateY(25px);
+}
+
+.BallRow .pie-menu .ball.color4 {
+	transform: translate(24px, 13.5px);
+}
+
+.BallRow .pie-menu .ball.color5 {
+	transform: translate(24px, -13.5px);
 }
