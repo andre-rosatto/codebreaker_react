@@ -1,20 +1,22 @@
 import { useEffect, useState } from 'react';
 import '../css/BallRow.css';
+import { GameStatus } from './App';
 
 interface BallRowProps {
 	header?: boolean;
 	current?: boolean;
 	balls: Array<number>;
 	hints?: Array<number>;
+	gameStatus: GameStatus;
 	onEnterClick?: () => void;
 	onPieMenuClick?: (ballIdx: number, colorIdx: number) => void;
 }
 
-const BallRow = ({ header, current, balls, hints, onEnterClick, onPieMenuClick }: BallRowProps) => {
+const BallRow = ({ header, current, balls, hints, gameStatus, onEnterClick, onPieMenuClick }: BallRowProps) => {
 	const [selectedBall, setSelectedBall] = useState<number | null>(null);
 
 	useEffect(() => {
-		const handleClickOutside = (e: MouseEvent) => {
+		const handleClickOutside = () => {
 			setSelectedBall(null);
 		}
 		window.addEventListener('click', handleClickOutside)
@@ -22,17 +24,12 @@ const BallRow = ({ header, current, balls, hints, onEnterClick, onPieMenuClick }
 	});
 
 	const getBallClass = (ball: number): string => {
+		if (gameStatus === 'run' && header) return 'hidden';
 		switch (ball) {
-			case -4:
-				return 'hidden';
-			case -3:
-				return 'empty';
-			case -2:
-				return 'black';
-			case -1:
-				return 'white';
-			default:
-				return `color${ball}`;
+			case -1: return 'black';
+			case -2: return 'white';
+			case -3: return 'empty';
+			default: return `color${ball}`;
 		}
 	}
 
