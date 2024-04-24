@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import '../css/App.css';
 import BallRow from './BallRow';
+import Modal from './Modal';
 
 interface Attempt {
 	balls: Array<number>;
 	hints: Array<number>;
 }
 
-export type GameStatus = 'run' | 'win' | 'lose';
+export type GameStatus = 'play' | 'win' | 'lose' | 'wait';
 
 const MAX_ATTEMPTS = 8;
 
@@ -15,7 +16,7 @@ const App = () => {
 	const [answer, setAnswer] = useState<Array<number>>(makeAnswer());
 	const [attempts, setAttempts] = useState<Array<Attempt>>(clearAttempts());
 	const [currentAttempt, setCurrentAttempt] = useState(0);
-	const [gameStatus, setGameStatus] = useState<GameStatus>('run');
+	const [gameStatus, setGameStatus] = useState<GameStatus>('play');
 
 	function makeAnswer(): Array<number> {
 		const numbers = [0, 1, 2, 3, 4, 5];
@@ -85,7 +86,7 @@ const App = () => {
 					{attempts.map((attempt, idx) => (
 						<BallRow
 							key={idx}
-							current={currentAttempt === idx && gameStatus === 'run'}
+							current={currentAttempt === idx && gameStatus === 'play'}
 							balls={attempt.balls}
 							hints={attempt.hints}
 							gameStatus={gameStatus}
@@ -94,6 +95,16 @@ const App = () => {
 						/>
 					))}
 				</section>
+				{(gameStatus === 'win' || gameStatus === 'lose') && <Modal title={gameStatus === 'win' ? 'Vitória' : 'Derrota'}>
+					<div className="modal-content">
+						{gameStatus === 'win' && <p>Você decifrou o código!</p>}
+						{gameStatus === 'lose' && <p>Você não conseguiu<br />decifrar o código.</p>}
+						<button
+							className="modal-btn"
+							onClick={() => setGameStatus('wait')}
+						>OK</button>
+					</div>
+				</Modal>}
 			</div>
 		</div>
 	);
