@@ -17,6 +17,7 @@ const App = () => {
 	const [attempts, setAttempts] = useState<Array<Attempt>>(clearAttempts());
 	const [currentAttempt, setCurrentAttempt] = useState(0);
 	const [gameStatus, setGameStatus] = useState<GameStatus>('play');
+	const [showMenu, setShowMenu] = useState(true);
 
 	function makeAnswer(): Array<number> {
 		const numbers = [0, 1, 2, 3, 4, 5];
@@ -68,13 +69,39 @@ const App = () => {
 		setAttempts(nextAttempts);
 	}
 
+	const handleNewGameClick = (e: React.MouseEvent) => {
+		e.stopPropagation();
+		setAnswer(makeAnswer());
+		setAttempts(clearAttempts());
+		setGameStatus('play');
+		setShowMenu(false);
+	}
+
+	const handleShowSolutionClick = (e: React.MouseEvent) => {
+		e.stopPropagation();
+		setGameStatus('wait');
+		setShowMenu(false);
+	}
+
+	const handleHowToPlayClick = (e: React.MouseEvent) => {
+		e.stopPropagation();
+	}
+
 	return (
 		<div className="App">
 			<div className="Codebreaker">
 				<header>
 					<div className="title">
 						<h1>Codebreaker</h1>
-						<nav></nav>
+						<nav onClick={() => setShowMenu(true)}>
+							<div className={`menu${showMenu ? '' : ' hidden'}`}>
+								<ul>
+									<li onClick={handleNewGameClick}>Novo jogo</li>
+									<li onClick={handleShowSolutionClick}>Mostrar solução</li>
+									<li onClick={handleHowToPlayClick}>Como jogar</li>
+								</ul>
+							</div>
+						</nav>
 					</div>
 					<BallRow
 						header
@@ -105,6 +132,10 @@ const App = () => {
 						>OK</button>
 					</div>
 				</Modal>}
+				{showMenu && <div
+					className="outer-area"
+					onClick={() => setShowMenu(false)}
+				></div>}
 			</div>
 		</div>
 	);

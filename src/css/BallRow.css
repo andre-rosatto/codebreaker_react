@@ -94,10 +94,11 @@
 	align-items: center;
 }
 
-.BallRow .ball.hidden::after {
+.BallRow .ball.hidden::before {
 	content: '?';
 	color: black;
 	font-size: 26px;
+	margin-top: 3px;
 }
 
 .BallRow .ball.color0 {
