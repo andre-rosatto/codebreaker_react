@@ -110,6 +110,24 @@
 	cursor: pointer;
 }
 
+/* como jogar */
+.Codebreaker .modal-content ul {
+	margin-bottom: 10px;
+}
+
+.Codebreaker .modal-content.how-to-play p,
+.Codebreaker .modal-content.how-to-play li {
+	font-size: 18px;
+	line-height: 16px;
+	text-shadow: -2px 0 0 rgba(0, 0, 0, .5), 2px 0 0 rgba(0, 0, 0, .5), 0 -2px 0 rgba(0, 0, 0, .5), 0 2px 0 rgba(0, 0, 0, .5);
+}
+
+.Codebreaker .modal-content li {
+	text-align: left;
+	margin-left: 10px;
+	margin-bottom: 10px;
+}
+
 /* menu */
 .Codebreaker .menu {
 	background-image: url('../assets/menu_bg.png');

@@ -2,7 +2,7 @@ import '../css/Modal.css';
 
 interface ModalProps {
 	title: string;
-	children: JSX.Element
+	children?: JSX.Element
 }
 
 const Modal = ({ title, children }: ModalProps) => {

@@ -17,7 +17,8 @@ const App = () => {
 	const [attempts, setAttempts] = useState<Array<Attempt>>(clearAttempts());
 	const [currentAttempt, setCurrentAttempt] = useState(0);
 	const [gameStatus, setGameStatus] = useState<GameStatus>('play');
-	const [showMenu, setShowMenu] = useState(true);
+	const [showMenu, setShowMenu] = useState(false);
+	const [showHowToPlay, setShowHowToPlay] = useState(true);
 
 	function makeAnswer(): Array<number> {
 		const numbers = [0, 1, 2, 3, 4, 5];
@@ -85,6 +86,8 @@ const App = () => {
 
 	const handleHowToPlayClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
+		setShowHowToPlay(true);
+		setShowMenu(false);
 	}
 
 	return (
@@ -129,6 +132,20 @@ const App = () => {
 						<button
 							className="modal-btn"
 							onClick={() => setGameStatus('wait')}
+						>OK</button>
+					</div>
+				</Modal>}
+				{showHowToPlay && <Modal title="Como jogar">
+					<div className="modal-content how-to-play">
+						<p>O objetivo do jogo é descobrir a combinação de cores em no máximo {MAX_ATTEMPTS} tentativas. Cada uma das tentativas são analisadas da seguinte forma:</p>
+						<ul>
+							<li>Um pino cinza indica que um dos pinos é da cor correta e está na posição correta;</li>
+							<li>Um pino branco indica que um dos pinos é da cor correta, mas está na posição errada;</li>
+							<li>Um espaços vazio indica que uma das cores não faz parte da solução.</li>
+						</ul>
+						<button
+							className="modal-btn"
+							onClick={() => setShowHowToPlay(false)}
 						>OK</button>
 					</div>
 				</Modal>}
