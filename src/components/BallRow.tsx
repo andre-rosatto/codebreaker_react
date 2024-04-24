@@ -26,8 +26,8 @@ const BallRow = ({ header, current, balls, hints, gameStatus, onEnterClick, onPi
 	const getBallClass = (ball: number): string => {
 		if (gameStatus === 'run' && header) return 'hidden';
 		switch (ball) {
-			case -1: return 'black';
-			case -2: return 'white';
+			case -1: return 'right';
+			case -2: return 'misplaced';
 			case -3: return 'empty';
 			default: return `color${ball}`;
 		}

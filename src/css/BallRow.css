@@ -129,11 +129,11 @@
 	background: var(--ball-empty);
 }
 
-.BallRow .hint.black {
+.BallRow .hint.right {
 	background: var(--ball-black);
 }
 
-.BallRow .hint.white {
+.BallRow .hint.misplaced {
 	background: var(--ball-white);
 }
 

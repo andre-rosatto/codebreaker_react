@@ -23,8 +23,6 @@ const App = () => {
 		for (let i = 0; i < 4; i++) {
 			result.push(numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0]);
 		}
-		console.log(result);
-
 		return result;
 	}
 
@@ -54,13 +52,10 @@ const App = () => {
 		const nextAttempts = attempts.map((att, idx) => idx === currentAttempt ? attempt : att);
 		setAttempts(nextAttempts);
 		if (attempt.hints.every(colorIdx => colorIdx === -1)) {
-			console.log('win');
 			setGameStatus('win');
 		} else if (currentAttempt === MAX_ATTEMPTS - 1) {
-			console.log('lose');
 			setGameStatus('lose');
 		} else {
-			console.log('run');
 			setCurrentAttempt(currentAttempt + 1);
 		}
 	}
