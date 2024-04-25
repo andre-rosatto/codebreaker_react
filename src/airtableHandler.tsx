@@ -1,8 +1,13 @@
 const TOKEN = 'patkzoJKWr6uW1Vz6.798a6e3220084a567b478ef44e0c151b5391bfdc6b8612994b52e14557543d69';
 const BASE = 'appmcm2fjasLa7UMc';
 
+export interface Language {
+	shortName: string;
+	name: string;
+}
+
 export default class AirtableHandler {
-	static getLanguages(onFetch: (data: Array<Object>) => void) {
+	static getLanguages(onFetch: (data: Array<Language>) => void) {
 		fetch(`https://api.airtable.com/v0/${BASE}/Projects?view=Codebreaker&filterByFormula=({name}='languages')`,
 			{
 				headers: {

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import '../css/App.css';
 import BallRow from './BallRow';
 import Modal from './Modal';
-import AirtableHandler from '../airtableHandler';
+import AirtableHandler, { Language } from '../airtableHandler';
 
 interface Attempt {
 	balls: Array<number>;
@@ -21,15 +21,19 @@ const App = () => {
 	const [showMenu, setShowMenu] = useState(true);
 	const [showHowToPlay, setShowHowToPlay] = useState(false);
 	const [languageData, setLanguageData] = useState();
-	const [languages, setLanguages] = useState<Array<Object>>([]);
-	const [currentLanguage, setCurrentLanguage] = useState('pt-BR');
+	const [languages, setLanguages] = useState<Array<Language>>([]);
+	const [currentLanguage, setCurrentLanguage] = useState<Language>();
 
 	useEffect(() => {
-		AirtableHandler.getLanguages(langs => setLanguages(langs));
+		AirtableHandler.getLanguages(langs => {
+			setLanguages(langs);
+			setCurrentLanguage(langs[0]);
+		});
 	}, []);
 
 	useEffect(() => {
-		AirtableHandler.getLanguageData(currentLanguage, data => {
+		if (!currentLanguage) return;
+		AirtableHandler.getLanguageData(currentLanguage.shortName, data => {
 			setLanguageData(data);
 		});
 	}, [currentLanguage]);
@@ -120,16 +124,17 @@ const App = () => {
 									{languageData && <li onClick={handleNewGameClick}>{languageData['menu_new_game']}</li>}
 									{languageData && <li onClick={handleShowSolutionClick}>{languageData['menu_show_solution']}</li>}
 									{languageData && <li onClick={handleHowToPlayClick}>{languageData['menu_how_to_play']}</li>}
-									<li className="li-select">
-										<select onChange={e => setCurrentLanguage(e.target.value)}>
-											{languages && languages.map((language: any) => (
-												<option
+									{languages && <li className="li-select">
+										<ul className="combobox">
+											<li className="combobox__current">{currentLanguage?.name}</li>
+											{languages.map((language: any) => (
+												<li
 													key={language.shortName}
-													value={language.shortName}
-												>{language.name}</option>
+													onClick={() => setCurrentLanguage(language)}
+												>{language.name}</li>
 											))}
-										</select>
-									</li>
+										</ul>
+									</li>}
 								</ul>
 							</div>
 						</nav>

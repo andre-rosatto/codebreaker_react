@@ -165,14 +165,60 @@
 	background-color: rgba(0, 0, 0, .35);
 }
 
+.Codebreaker .menu li.li-select {
+	position: relative;
+	height: 40px;
+}
+
 .Codebreaker .menu li.li-select:hover {
 	background-color: transparent;
 	cursor: default;
 }
 
 /* seletor de idiomas */
-.Codebreaker select {
-	/* display: none; */
+.Codebreaker .combobox {
+	display: inline-block;
+	background-color: rgba(0, 0, 0, .5);
+	color: white;
+	border: 1px solid rgba(255, 255, 255, .5);
+	border-radius: 4px;
+	height: 30px;
+	overflow-y: hidden;
+	position: absolute;
+	right: 0;
+	top: 0;
+	margin-right: 12px;
+}
+
+.Codebreaker .combobox:hover {
+	height: auto;
+	overflow-y: visible;
+}
+
+.Codebreaker .combobox__current::after {
+	content: '🞃';
+	margin-left: 10px;
+	font-size: 16px;
+}
+
+.Codebreaker .combobox:hover .combobox__current::after {
+	content: '🞁';
+	margin-top: 5px;
+}
+
+.Codebreaker .combobox li {
+	padding: 0 15px;
+	background-color: rgba(0, 0, 0, .6);
+}
+
+.Codebreaker .combobox li:hover,
+.Codebreaker .combobox__current {
+	background-color: black;
+}
+
+.Codebreaker .combobox__current {
+	display: flex;
+	padding-right: 8px;
 }
 
 /* area para sair do menu */
