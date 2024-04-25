@@ -89,6 +89,7 @@ const App = () => {
 		e.stopPropagation();
 		setAnswer(makeAnswer());
 		setAttempts(clearAttempts());
+		setCurrentAttempt(0);
 		setGameStatus('play');
 		setShowMenu(false);
 	}
