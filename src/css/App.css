@@ -172,7 +172,7 @@
 
 /* seletor de idiomas */
 .Codebreaker select {
-	display: none;
+	/* display: none; */
 }
 
 /* area para sair do menu */

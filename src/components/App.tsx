@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../css/App.css';
 import BallRow from './BallRow';
 import Modal from './Modal';
+import AirtableHandler from '../airtableHandler';
 
 interface Attempt {
 	balls: Array<number>;
@@ -16,9 +17,22 @@ const App = () => {
 	const [answer, setAnswer] = useState<Array<number>>(makeAnswer());
 	const [attempts, setAttempts] = useState<Array<Attempt>>(clearAttempts());
 	const [currentAttempt, setCurrentAttempt] = useState(0);
-	const [gameStatus, setGameStatus] = useState<GameStatus>('play');
+	const [gameStatus, setGameStatus] = useState<GameStatus>('wait');
 	const [showMenu, setShowMenu] = useState(true);
 	const [showHowToPlay, setShowHowToPlay] = useState(false);
+	const [languageData, setLanguageData] = useState();
+	const [languages, setLanguages] = useState<Array<Object>>([]);
+	const [currentLanguage, setCurrentLanguage] = useState('pt-BR');
+
+	useEffect(() => {
+		AirtableHandler.getLanguages(langs => setLanguages(langs));
+	}, []);
+
+	useEffect(() => {
+		AirtableHandler.getLanguageData(currentLanguage, data => {
+			setLanguageData(data);
+		});
+	}, [currentLanguage]);
 
 	function makeAnswer(): Array<number> {
 		const numbers = [0, 1, 2, 3, 4, 5];
@@ -90,6 +104,10 @@ const App = () => {
 		setShowMenu(false);
 	}
 
+	const strToJSX = (str: string): JSX.Element => {
+		return <span dangerouslySetInnerHTML={{ __html: str }}></span>
+	}
+
 	return (
 		<div className="App">
 			<div className="Codebreaker">
@@ -99,13 +117,17 @@ const App = () => {
 						<nav onClick={() => setShowMenu(true)}>
 							<div className={`menu${showMenu ? '' : ' hidden'}`}>
 								<ul>
-									<li onClick={handleNewGameClick}>Novo jogo</li>
-									<li onClick={handleShowSolutionClick}>Mostrar solução</li>
-									<li onClick={handleHowToPlayClick}>Como jogar</li>
+									{languageData && <li onClick={handleNewGameClick}>{languageData['menu_new_game']}</li>}
+									{languageData && <li onClick={handleShowSolutionClick}>{languageData['menu_show_solution']}</li>}
+									{languageData && <li onClick={handleHowToPlayClick}>{languageData['menu_how_to_play']}</li>}
 									<li className="li-select">
-										<select>
-											<option value="pt-BR">Português</option>
-											<option value="en">English</option>
+										<select onChange={e => setCurrentLanguage(e.target.value)}>
+											{languages && languages.map((language: any) => (
+												<option
+													key={language.shortName}
+													value={language.shortName}
+												>{language.name}</option>
+											))}
 										</select>
 									</li>
 								</ul>
@@ -131,10 +153,13 @@ const App = () => {
 						/>
 					))}
 				</section>
-				{(gameStatus === 'win' || gameStatus === 'lose') && <Modal title={gameStatus === 'win' ? 'Vitória' : 'Derrota'}>
+				{(gameStatus === 'win' || gameStatus === 'lose') && languageData && <Modal
+					title={gameStatus === 'win' ? languageData['modal_win_title'] : languageData['modal_lose_title']}
+				>
 					<div className="modal-content">
-						{gameStatus === 'win' && <p>Você decifrou o código!</p>}
-						{gameStatus === 'lose' && <p>Você não conseguiu<br />decifrar o código.</p>}
+						{gameStatus === 'win' && languageData && <p>{strToJSX(languageData['modal_win_text'])}</p>}
+						{gameStatus === 'lose' && languageData && <p>{strToJSX(languageData['modal_lose_text'])}</p>}
+						{/* {gameStatus === 'lose' && <p>Você não conseguiu{'\n'}decifrar o código.</p>} */}
 						<button
 							className="modal-btn"
 							onClick={() => setGameStatus('wait')}
@@ -143,12 +168,7 @@ const App = () => {
 				</Modal>}
 				{showHowToPlay && <Modal title="Como jogar">
 					<div className="modal-content how-to-play">
-						<p>O objetivo do jogo é descobrir a combinação de cores. Cada uma das tentativas são analisadas da seguinte forma:</p>
-						<ul>
-							<li>Um pino cinza indica que um dos pinos é da cor correta e está na posição correta;</li>
-							<li>Um pino branco indica que um dos pinos é da cor correta, mas está na posição errada;</li>
-							<li>Um espaços vazio indica que uma das cores não faz parte da solução.</li>
-						</ul>
+						{languageData && strToJSX(languageData['modal_how_to_play'])}
 						<button
 							className="modal-btn"
 							onClick={() => setShowHowToPlay(false)}
