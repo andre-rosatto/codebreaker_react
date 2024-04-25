@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
 import '../css/App.css';
+import { useEffect, useState } from 'react';
 import BallRow from './BallRow';
 import Modal from './Modal';
-import AirtableHandler, { Language } from '../airtableHandler';
+import { Language, getLanguageData, getLanguages } from '../localization';
 
 interface Attempt {
 	balls: Array<number>;
@@ -21,22 +21,7 @@ const App = () => {
 	const [showMenu, setShowMenu] = useState(false);
 	const [showHowToPlay, setShowHowToPlay] = useState(false);
 	const [languageData, setLanguageData] = useState();
-	const [languages, setLanguages] = useState<Array<Language>>([]);
-	const [currentLanguage, setCurrentLanguage] = useState<Language>();
-
-	useEffect(() => {
-		AirtableHandler.getLanguages(langs => {
-			setLanguages(langs);
-			setCurrentLanguage(langs[0]);
-		});
-	}, []);
-
-	useEffect(() => {
-		if (!currentLanguage) return;
-		AirtableHandler.getLanguageData(currentLanguage.shortName, data => {
-			setLanguageData(data);
-		});
-	}, [currentLanguage]);
+	const [currentLanguage, setCurrentLanguage] = useState<Language>(getLanguages()[0]);
 
 	function makeAnswer(): Array<number> {
 		const numbers = [0, 1, 2, 3, 4, 5];
@@ -121,20 +106,20 @@ const App = () => {
 						<nav onClick={() => setShowMenu(true)}>
 							<div className={`menu${showMenu ? '' : ' hidden'}`}>
 								<ul>
-									{languageData && <li onClick={handleNewGameClick}>{languageData['menu_new_game']}</li>}
-									{languageData && <li onClick={handleShowSolutionClick}>{languageData['menu_show_solution']}</li>}
-									{languageData && <li onClick={handleHowToPlayClick}>{languageData['menu_how_to_play']}</li>}
-									{languages && <li className="menu__li-select">
+									{languageData && <li onClick={handleNewGameClick}>{languageData['menuNewGame']}</li>}
+									{languageData && <li onClick={handleShowSolutionClick}>{languageData['menuShowSolution']}</li>}
+									{languageData && <li onClick={handleHowToPlayClick}>{languageData['menuHowToPlay']}</li>}
+									<li className="menu__li-select">
 										<ul className="combobox">
 											<li className="combobox__current">{currentLanguage?.name}</li>
-											{languages.map((language: any) => (
+											{getLanguages().map((language: any) => (
 												<li
 													key={language.shortName}
 													onClick={() => setCurrentLanguage(language)}
 												>{language.name}</li>
 											))}
 										</ul>
-									</li>}
+									</li>
 								</ul>
 							</div>
 						</nav>
@@ -163,11 +148,11 @@ const App = () => {
 					))}
 				</section>
 				{(gameStatus === 'win' || gameStatus === 'lose') && languageData && <Modal
-					title={gameStatus === 'win' ? languageData['modal_win_title'] : languageData['modal_lose_title']}
+					title={gameStatus === 'win' ? languageData['modalWinTitle'] : languageData['modalLoseTitle']}
 				>
 					<div className="Modal__content">
-						{gameStatus === 'win' && languageData && <p>{strToJSX(languageData['modal_win_text'])}</p>}
-						{gameStatus === 'lose' && languageData && <p>{strToJSX(languageData['modal_lose_text'])}</p>}
+						{gameStatus === 'win' && languageData && <p>{strToJSX(languageData['modalWinText'])}</p>}
+						{gameStatus === 'lose' && languageData && <p>{strToJSX(languageData['modalLoseText'])}</p>}
 						<button
 							className="Modal__button"
 							onClick={() => setGameStatus('wait')}
@@ -176,7 +161,7 @@ const App = () => {
 				</Modal>}
 				{showHowToPlay && <Modal title="Como jogar">
 					<div className="Modal__content Modal__how-to-play">
-						{languageData && strToJSX(languageData['modal_how_to_play'])}
+						{languageData && strToJSX(languageData['modalHowToPlay'])}
 						<button
 							className="Modal__button"
 							onClick={() => setShowHowToPlay(false)}
