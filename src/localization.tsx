@@ -41,3 +41,7 @@ export const getLanguages = (): Array<Language> => {
 export const getLanguageData = (lang: Language) => {
 	return LANGUAGE_DATA[lang.shortName];
 }
+
+export const shortNameToIdx = (shortName: string) => {
+	return Math.max(Object.keys(LANGUAGE_DATA).indexOf(shortName), 0);
+}

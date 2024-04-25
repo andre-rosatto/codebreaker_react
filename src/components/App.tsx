@@ -2,7 +2,7 @@ import '../css/App.css';
 import { useEffect, useState } from 'react';
 import BallRow from './BallRow';
 import Modal from './Modal';
-import { Language, getLanguageData, getLanguages } from '../localization';
+import { Language, getLanguageData, getLanguages, shortNameToIdx } from '../localization';
 
 interface Attempt {
 	balls: Array<number>;
@@ -21,10 +21,13 @@ const App = () => {
 	const [showMenu, setShowMenu] = useState(false);
 	const [showHowToPlay, setShowHowToPlay] = useState(false);
 	const [languageData, setLanguageData] = useState();
-	const [currentLanguage, setCurrentLanguage] = useState<Language>(getLanguages()[0]);
+	const [currentLanguage, setCurrentLanguage] = useState<Language>(getLanguages()[getStartLanguageIdx()]);
 
 	useEffect(() => {
-		if (currentLanguage) setLanguageData(getLanguageData(currentLanguage));
+		if (!currentLanguage) return;
+		setLanguageData(getLanguageData(currentLanguage));
+		localStorage.setItem('codebreaker', shortNameToIdx(currentLanguage.shortName).toString());
+
 	}, [currentLanguage]);
 
 	function makeAnswer(): Array<number> {
@@ -34,6 +37,11 @@ const App = () => {
 			result.push(numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0]);
 		}
 		return result;
+	}
+
+	function getStartLanguageIdx(): number {
+		const data = localStorage.getItem('codebreaker');
+		return parseInt(data ?? '0');
 	}
 
 	function clearAttempts(): Array<Attempt> {
