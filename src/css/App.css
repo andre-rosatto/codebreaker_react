@@ -2,6 +2,7 @@
 
 :root {
 	--drop-shadow: 0 0 5px rgba(0, 0, 0, .75);
+	--inset-border: 1px 0 0 rgba(255, 255, 255, .5) inset, -1px 0 0 rgba(255, 255, 255, .5) inset, 0 1px rgba(255, 255, 255, .5) inset, 0 -1px 0 rgba(255, 255, 255, .5) inset;
 	--game-bg: linear-gradient(dodgerblue, #123456);
 	--ball-empty: radial-gradient(circle at 70% 70%, #3d3d3d, #161616);
 	--ball-black: radial-gradient(circle at 30% 30%, #d3d3d3, #736c6c 33%, black);
@@ -130,15 +131,15 @@
 
 /* menu */
 .Codebreaker .menu {
-	background-image: url('../assets/menu_bg.png');
+	background-image: url('../assets/menu_bg.jpg');
 	position: absolute;
-	right: 0;
-	top: 0;
+	right: -1px;
+	top: -1px;
 	padding: 10px 2px;
 	z-index: 2;
-	box-shadow: var(--drop-shadow);
+	box-shadow: var(--drop-shadow), var(--inset-border);
 	width: 166px;
-	height: 95px;
+	border-radius: 8px;
 	transform: scale(1);
 	transform-origin: top right;
 	transition: transform .4s;
@@ -164,6 +165,17 @@
 	background-color: rgba(0, 0, 0, .35);
 }
 
+.Codebreaker .menu li.li-select:hover {
+	background-color: transparent;
+	cursor: default;
+}
+
+/* seletor de idiomas */
+.Codebreaker select {
+	display: none;
+}
+
+/* area para sair do menu */
 .Codebreaker .outer-area {
 	position: fixed;
 	top: 0;

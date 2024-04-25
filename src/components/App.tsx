@@ -17,8 +17,8 @@ const App = () => {
 	const [attempts, setAttempts] = useState<Array<Attempt>>(clearAttempts());
 	const [currentAttempt, setCurrentAttempt] = useState(0);
 	const [gameStatus, setGameStatus] = useState<GameStatus>('play');
-	const [showMenu, setShowMenu] = useState(false);
-	const [showHowToPlay, setShowHowToPlay] = useState(true);
+	const [showMenu, setShowMenu] = useState(true);
+	const [showHowToPlay, setShowHowToPlay] = useState(false);
 
 	function makeAnswer(): Array<number> {
 		const numbers = [0, 1, 2, 3, 4, 5];
@@ -102,6 +102,12 @@ const App = () => {
 									<li onClick={handleNewGameClick}>Novo jogo</li>
 									<li onClick={handleShowSolutionClick}>Mostrar solução</li>
 									<li onClick={handleHowToPlayClick}>Como jogar</li>
+									<li className="li-select">
+										<select>
+											<option value="pt-BR">Português</option>
+											<option value="en">English</option>
+										</select>
+									</li>
 								</ul>
 							</div>
 						</nav>
@@ -137,7 +143,7 @@ const App = () => {
 				</Modal>}
 				{showHowToPlay && <Modal title="Como jogar">
 					<div className="modal-content how-to-play">
-						<p>O objetivo do jogo é descobrir a combinação de cores em no máximo {MAX_ATTEMPTS} tentativas. Cada uma das tentativas são analisadas da seguinte forma:</p>
+						<p>O objetivo do jogo é descobrir a combinação de cores. Cada uma das tentativas são analisadas da seguinte forma:</p>
 						<ul>
 							<li>Um pino cinza indica que um dos pinos é da cor correta e está na posição correta;</li>
 							<li>Um pino branco indica que um dos pinos é da cor correta, mas está na posição errada;</li>
