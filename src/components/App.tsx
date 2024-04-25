@@ -106,10 +106,6 @@ const App = () => {
 		setShowMenu(false);
 	}
 
-	// const strToJSX = (str: string): JSX.Element => {
-	// 	return <span dangerouslySetInnerHTML={{ __html: str }}></span>
-	// }
-
 	return (
 		<div className="App">
 			<div className="Codebreaker">
