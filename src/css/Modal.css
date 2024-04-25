@@ -15,6 +15,7 @@
 	background-image: url('../assets/modal_bg.jpg');
 	color: white;
 	box-shadow: var(--drop-shadow);
+	border-radius: 5px;
 }
 
 .Modal__title-bar {
