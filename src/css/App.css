@@ -165,12 +165,12 @@
 	background-color: rgba(0, 0, 0, .35);
 }
 
-.menu__li-select {
+.menu li.menu__li-select {
 	position: relative;
 	height: 40px;
 }
 
-.menu__li-select:hover {
+.menu li.menu__li-select:hover {
 	background-color: transparent;
 	cursor: default;
 }
