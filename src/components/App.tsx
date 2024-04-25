@@ -17,8 +17,8 @@ const App = () => {
 	const [answer, setAnswer] = useState<Array<number>>(makeAnswer());
 	const [attempts, setAttempts] = useState<Array<Attempt>>(clearAttempts());
 	const [currentAttempt, setCurrentAttempt] = useState(0);
-	const [gameStatus, setGameStatus] = useState<GameStatus>('wait');
-	const [showMenu, setShowMenu] = useState(true);
+	const [gameStatus, setGameStatus] = useState<GameStatus>('play');
+	const [showMenu, setShowMenu] = useState(false);
 	const [showHowToPlay, setShowHowToPlay] = useState(false);
 	const [languageData, setLanguageData] = useState();
 	const [languages, setLanguages] = useState<Array<Language>>([]);
@@ -116,7 +116,7 @@ const App = () => {
 		<div className="App">
 			<div className="Codebreaker">
 				<header>
-					<div className="title">
+					<div className="Codebraker__title">
 						<h1>Codebreaker</h1>
 						<nav onClick={() => setShowMenu(true)}>
 							<div className={`menu${showMenu ? '' : ' hidden'}`}>
@@ -124,7 +124,7 @@ const App = () => {
 									{languageData && <li onClick={handleNewGameClick}>{languageData['menu_new_game']}</li>}
 									{languageData && <li onClick={handleShowSolutionClick}>{languageData['menu_show_solution']}</li>}
 									{languageData && <li onClick={handleHowToPlayClick}>{languageData['menu_how_to_play']}</li>}
-									{languages && <li className="li-select">
+									{languages && <li className="menu__li-select">
 										<ul className="combobox">
 											<li className="combobox__current">{currentLanguage?.name}</li>
 											{languages.map((language: any) => (
@@ -138,6 +138,10 @@ const App = () => {
 								</ul>
 							</div>
 						</nav>
+						{showMenu && <div
+							className="menu__outer-area"
+							onClick={() => setShowMenu(false)}
+						></div>}
 					</div>
 					<BallRow
 						header
@@ -145,7 +149,7 @@ const App = () => {
 						gameStatus={gameStatus}
 					/>
 				</header>
-				<section className="play-area">
+				<section className="Codebreaker__play-area">
 					{attempts.map((attempt, idx) => (
 						<BallRow
 							key={idx}
@@ -161,29 +165,24 @@ const App = () => {
 				{(gameStatus === 'win' || gameStatus === 'lose') && languageData && <Modal
 					title={gameStatus === 'win' ? languageData['modal_win_title'] : languageData['modal_lose_title']}
 				>
-					<div className="modal-content">
+					<div className="Modal__content">
 						{gameStatus === 'win' && languageData && <p>{strToJSX(languageData['modal_win_text'])}</p>}
 						{gameStatus === 'lose' && languageData && <p>{strToJSX(languageData['modal_lose_text'])}</p>}
-						{/* {gameStatus === 'lose' && <p>Você não conseguiu{'\n'}decifrar o código.</p>} */}
 						<button
-							className="modal-btn"
+							className="Modal__button"
 							onClick={() => setGameStatus('wait')}
 						>OK</button>
 					</div>
 				</Modal>}
 				{showHowToPlay && <Modal title="Como jogar">
-					<div className="modal-content how-to-play">
+					<div className="Modal__content Modal__how-to-play">
 						{languageData && strToJSX(languageData['modal_how_to_play'])}
 						<button
-							className="modal-btn"
+							className="Modal__button"
 							onClick={() => setShowHowToPlay(false)}
 						>OK</button>
 					</div>
 				</Modal>}
-				{showMenu && <div
-					className="outer-area"
-					onClick={() => setShowMenu(false)}
-				></div>}
 			</div>
 		</div>
 	);

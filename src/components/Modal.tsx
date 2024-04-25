@@ -8,8 +8,8 @@ interface ModalProps {
 const Modal = ({ title, children }: ModalProps) => {
 	return (
 		<div className="Modal">
-			<div className="window">
-				<h2 className="title-bar">{title}</h2>
+			<div className="Modal__window">
+				<h2 className="Modal__title-bar">{title}</h2>
 				<div>
 					{children}
 				</div>
