@@ -23,6 +23,10 @@ const App = () => {
 	const [languageData, setLanguageData] = useState();
 	const [currentLanguage, setCurrentLanguage] = useState<Language>(getLanguages()[0]);
 
+	useEffect(() => {
+		if (currentLanguage) setLanguageData(getLanguageData(currentLanguage));
+	}, [currentLanguage]);
+
 	function makeAnswer(): Array<number> {
 		const numbers = [0, 1, 2, 3, 4, 5];
 		const result = [];
@@ -93,9 +97,9 @@ const App = () => {
 		setShowMenu(false);
 	}
 
-	const strToJSX = (str: string): JSX.Element => {
-		return <span dangerouslySetInnerHTML={{ __html: str }}></span>
-	}
+	// const strToJSX = (str: string): JSX.Element => {
+	// 	return <span dangerouslySetInnerHTML={{ __html: str }}></span>
+	// }
 
 	return (
 		<div className="App">
@@ -151,8 +155,8 @@ const App = () => {
 					title={gameStatus === 'win' ? languageData['modalWinTitle'] : languageData['modalLoseTitle']}
 				>
 					<div className="Modal__content">
-						{gameStatus === 'win' && languageData && <p>{strToJSX(languageData['modalWinText'])}</p>}
-						{gameStatus === 'lose' && languageData && <p>{strToJSX(languageData['modalLoseText'])}</p>}
+						{gameStatus === 'win' && languageData && <p>{languageData['modalWinText']}</p>}
+						{gameStatus === 'lose' && languageData && <p>{languageData['modalLoseText']}</p>}
 						<button
 							className="Modal__button"
 							onClick={() => setGameStatus('wait')}
@@ -161,7 +165,7 @@ const App = () => {
 				</Modal>}
 				{showHowToPlay && <Modal title="Como jogar">
 					<div className="Modal__content Modal__how-to-play">
-						{languageData && strToJSX(languageData['modalHowToPlay'])}
+						{languageData && languageData['modalHowToPlay']}
 						<button
 							className="Modal__button"
 							onClick={() => setShowHowToPlay(false)}
